@@ -5,56 +5,8 @@
 # Player places bet and wins / loses (hint: rand)
 # Player's bankroll goes up and down with wins and losses
 
-class Deck
-  # Getter and Setter methods for rank, suit and color
-  attr_accessor :cards
- 
-  # Gets called when you call the new method to create an instance
-  # deck = Deck.new
-  def initialize
-    @ranks = %w(A 2 3 4 5 6 7 8 9 10 J Q K)
-    @suits = %w(Spades Diamonds Clubs Hearts)
-    @cards = []
-    generate_deck
-  end
- 
-  def shuffle_cards
-   @cards.shuffle
-  end
-  
-  def generate_deck
-    @suits.each do |suit|
-      @ranks.size.times do |i|
-        # Ternary Operator
-        color = (suit == 'Spades' || suit == 'Clubs') ? 'Black' : 'Red' 
-        @cards << Card.new(@ranks[i], suit, color)
-      end
-    end
-  end
- 
-   def display_cards
-     @cards.shuffle.each do |card|
-       puts "#{card.rank} #{card.suit} (#{card.color})"
-     end
-   end
- end
 
- def high_low
-  number = rand(1..10)
-  puts "Guess the correct number between 1 and 10:"
-  loop do 
-    user_input = gets.chomp.to_i
-    if user_input == number
-      puts "You picked the correct number!"
-      break
-    elsif user_input > number
-      puts "The number is lower, try again."
-    else
-      puts "The number is higher, try again."
-    end
-  end
-end
-high_low
+
 
 
 class Person
@@ -71,8 +23,6 @@ class Person
 end
 
 @cash = []
-
-
 
 @you_lose = 0
 @you_won_something = 200
@@ -108,7 +58,11 @@ def pull_lever
     puts "Your bank value is now #{@bankaccount}"
 
   else 
-    puts "try again"
+    puts "lemon, lemon, lemon"
+    @change = 0
+    puts "you lose $#{@you_lose}"
+    @bankaccount = @bankaccount - @you_lose
+    puts "Your bank value is now #{@bankaccount}"
     
   end
   game_menu
@@ -127,6 +81,33 @@ def intro
 end
 
 intro
+
+
+def high_low 
+  number = rand(1..10)
+  puts "How much money would you like to wager?"
+  @cash = gets.to_i
+
+  puts "Guess the correct number between 1 and 10:"
+    user_input = gets.chomp.to_i
+    if user_input == number
+      puts "You picked the correct number!"
+      @change = @cash
+      @bankaccount = @bankaccount + @cash 
+      puts "Your bank value is now #{@bankaccount}"
+    elsif user_input > number
+      puts "The correct number is #{number} ... you lost your bet!"
+      @bankaccount = @bankaccount - @cash 
+      puts "Your bank value is now #{@bankaccount}"
+    else
+      puts "The correct number is #{number} ... you lost your bet!"
+      @bankaccount = @bankaccount - @cash 
+      puts "Your bank value is now #{@bankaccount}"
+    end
+
+  game_menu  
+  end
+
 
 
 def slots
